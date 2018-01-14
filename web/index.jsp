@@ -19,7 +19,7 @@
 
     <body>
         
-        
+        <%@include file="menu.jsp" %>
         
         
         
