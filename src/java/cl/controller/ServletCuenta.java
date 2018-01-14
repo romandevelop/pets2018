@@ -25,6 +25,7 @@ public class ServletCuenta extends HttpServlet {
 
     @EJB
     private CuentaSessionBeanLocal serviceBean;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,16 +56,18 @@ public class ServletCuenta extends HttpServlet {
         String rut = request.getParameter("rut");
         String clave = request.getParameter("clave");        
         
-        Usuario user = serviceBean.login(rut, clave);
+        Usuario user = serviceBean.login(rut, Hash.md5(clave));
         if (user!=null && user.getPerfil().getNombrePerfil().equalsIgnoreCase("cliente")) {
+            request.getSession().setAttribute("cliente", user);
             response.sendRedirect("index.jsp");
-            System.out.println("cliente");
+            log("cliente");
         } else if(user!=null && user.getPerfil().getNombrePerfil().equalsIgnoreCase("administrador")){
+            request.getSession().setAttribute("administrador", user);
             response.sendRedirect("index.jsp");
-            System.out.println("admin");
+            log("admin");
         }else{
             response.sendRedirect("login.jsp");
-            System.out.println("usuario no valido");
+            log("usuario no valido");
         }
        
     }
