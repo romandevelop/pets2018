@@ -5,7 +5,7 @@
  */
 package cl.controller;
 
-import cl.beans.ServiceBeanLocal;
+import cl.beans.CuentaSessionBeanLocal;
 import cl.model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ServletCuenta", urlPatterns = {"/ServletCuenta"})
 public class ServletCuenta extends HttpServlet {
 
-    @EJB()
-    private ServiceBeanLocal serviceBean;
+    @EJB
+    private CuentaSessionBeanLocal serviceBean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -64,6 +64,7 @@ public class ServletCuenta extends HttpServlet {
             System.out.println("admin");
         }else{
             response.sendRedirect("login.jsp");
+            System.out.println("usuario no valido");
         }
        
     }

@@ -28,8 +28,8 @@
                         <label for="rut">Rut</label>
                     </div>
                     <div class="input-field">
-                        <input  placeholder="Ingresa tu clave" id="pass" type="password" name="pass" class="validate">
-                        <label for="pass">Clave</label>
+                        <input  placeholder="Ingresa tu clave" id="clave" type="password" name="clave" class="validate">
+                        <label for="clave">Clave</label>
                     </div>
                     <p class="center-align" >
                         <a href="registro.jsp">Si no tienes cuenta registrate pulsando aqui </a>

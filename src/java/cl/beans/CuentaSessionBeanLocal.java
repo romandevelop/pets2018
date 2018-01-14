@@ -13,8 +13,8 @@ import javax.ejb.Local;
  * @author roman
  */
 @Local
-public interface ServiceBeanLocal {
-    Usuario buscarUsuario(String rut);
+public interface CuentaSessionBeanLocal {
+     Usuario buscarUsuario(String rut);
     Usuario login(String rut, String clave);
     String registro(Usuario user);
 }

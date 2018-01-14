@@ -15,9 +15,9 @@ import javax.persistence.PersistenceContext;
  * @author roman
  */
 @Stateless
-public class ServiceBean implements ServiceBeanLocal {
+public class CuentaSessionBean implements CuentaSessionBeanLocal {
 
-    @PersistenceContext(unitName = "persistPets")
+     @PersistenceContext(unitName = "persistPets")
     private EntityManager em;
     
     
@@ -29,7 +29,8 @@ public class ServiceBean implements ServiceBeanLocal {
     @Override
     public Usuario login(String rut, String clave) {
         Usuario user = buscarUsuario(rut);
-        
+        System.out.println("clave user:"+user.getClave());
+        System.out.println("clave recibida:"+clave);
         return user!=null?(user.getClave().equals(clave)?user:null):null;
     }
 
@@ -43,5 +44,4 @@ public class ServiceBean implements ServiceBeanLocal {
         return "cuenta creada";
     }
 
-    
 }
