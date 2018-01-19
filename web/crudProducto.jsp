@@ -27,6 +27,7 @@
 
 <div class="row">
     <div class="col s6">
+        <p>${requestScope.msg}</p>
         <div class="card-panel z-depth-3">
             <h4>Nuevo Producto</h4>
             <form name="data" action="ServletAdministrador" method="post" enctype="multipart/form-data">
@@ -93,17 +94,15 @@
 
             <tbody>
                 <%
-                    String base_64;
                     for (Producto p : productos) {
                         out.println("<tr>");
                         out.println("<td>"+p.getIdProducto()+"</td>");
                         out.println("<td>"+p.getNombreProducto()+"</td>");
                         out.println("<td>"+p.getPrecioProducto()+"</td>");
                         out.println("<td>"+p.getUnidadesProducto()+"</td>");
-                        out.println("<td>"+p.getCategoria().getNombreCategoria()+"</td>");
-                        
+                        out.println("<td>"+p.getCategoria().getNombreCategoria()+"</td>");                        
                         if (p.getFotoProducto() != null) {
-                            out.print("<td><img width='50' src='data:image/*;base64," + Base64.encode(p.getFotoProducto()) + "'/></td>");
+                            out.print("<td><img class='materialboxed' width='50' src='data:image/*;base64," + Base64.encode(p.getFotoProducto()) + "'/></td>");
                         }
                         out.println("</tr>");
                     }

@@ -23,8 +23,8 @@ import org.apache.commons.io.IOUtils;
  *
  * @author roman
  */
-@MultipartConfig(location="/tmp", fileSizeThreshold=1024*1024, 
-    maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
+@MultipartConfig(location = "/tmp", fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(name = "ServletAdministrador", urlPatterns = {"/ServletAdministrador"})
 public class ServletAdministrador extends HttpServlet {
 
@@ -43,121 +43,51 @@ public class ServletAdministrador extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        
         String bt = request.getParameter("bt");
-        log(bt);
-                
+
         switch (bt) {
             case "nuevoProducto":
                 nuevoProducto(request, response);
                 break;
-            
+
         }
-                
-        
-        
-//        String name;
-//        try {
-//            FileItemFactory factory = new DiskFileItemFactory();
-//            ServletFileUpload upload = new ServletFileUpload(factory);
-//            List<FileItem> items = upload.parseRequest(request);
-//
-//            for (FileItem item : items) {
-//                if (item.isFormField()) {
-//                    name = item.getFieldName();
-//                    if (name.equalsIgnoreCase("bt")) {
-//                        switch (item.getString()) {
-//                            case "nuevoProducto":
-//                                nuevoProducto(request, response);
-//                                break;
-//
-//                        }
-//                    }
-//
-//                }
-//            }
-//
-//        } catch (FileUploadException ex) {
-//            log("Error de lectura");
-//        }
 
     }
 
     protected void nuevoProducto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        InputStream stream=null;
+        InputStream stream = null;
+        try {
 
-        String nombre = request.getParameter("nombre");
-        int precio = Integer.parseInt(request.getParameter("precio"));
-        int unidad = Integer.parseInt(request.getParameter("unidad"));
-        int idCategoria = Integer.parseInt(request.getParameter("categoria"));
-        String descripcion = request.getParameter("descripcion");
-        
-        
-        
-        
-        
-//        String name, nombre="", descripcion="";
-//        int precio=0, unidad=0, idCategoria=0;
-//        try {
-//            FileItemFactory factory = new DiskFileItemFactory();
-//            ServletFileUpload upload = new ServletFileUpload(factory);
-//            List<FileItem> items = upload.parseRequest(request);
-//
-//            for (FileItem item : items) {
-//                if (item.isFormField()) {
-//                    name = item.getFieldName();
-//                    switch (name) {
-//                        case "nombre":
-//                            nombre = item.getString();
-//                            break;
-//                        case "precio":
-//                            precio = Integer.parseInt(item.getString());    
-//                            break;
-//                        case "unidad":
-//                            unidad = Integer.parseInt(item.getString());
-//                            break;
-//                        case "descripcion":
-//                            descripcion = item.getString();
-//                            break;
-//                        case "categoria":
-//                            idCategoria = Integer.parseInt(item.getString());
-//                            break;
-//                        case "foto":
-//                            log("es foto");
-//                            break;
-//                        
-//                    }
-//
-//                }else{
-//                    log("no inout field");
-//                    stream = item.getInputStream();
-//                }
-//            }
-//
-//        } catch (FileUploadException ex) {
-//            log("Error de lectura");
-//        }
-//;
-        Categoria cat = adminBean.findCategoria(idCategoria);
+            String nombre = request.getParameter("nombre");
+            int precio = Integer.parseInt(request.getParameter("precio"));
+            int unidad = Integer.parseInt(request.getParameter("unidad"));
+            int idCategoria = Integer.parseInt(request.getParameter("categoria"));
+            String descripcion = request.getParameter("descripcion");
 
-        Part foto = request.getPart("foto");
-        log("nombre archivo:" + foto.getName());
-        log("tamaño:" + foto.getSize());
-        log("tipo de archivo:" + foto.getContentType());
-        stream = foto.getInputStream();
+            Categoria cat = adminBean.findCategoria(idCategoria);
 
-        Producto p = new Producto();
-        p.setNombreProducto(nombre);
-        p.setPrecioProducto(precio);
-        p.setUnidadesProducto(unidad);
-        p.setDescripcionProducto(descripcion);
-        log("ss:"+stream);
-        p.setCategoria(cat);
+            Part foto = request.getPart("foto");
+            stream = foto.getInputStream();
+
+            Producto p = new Producto();
+            p.setNombreProducto(nombre);
+            p.setPrecioProducto(precio);
+            p.setUnidadesProducto(unidad);
+            p.setDescripcionProducto(descripcion);
+            p.setCategoria(cat);
+
+            p.setFotoProducto(IOUtils.toByteArray(stream));
+            adminBean.insert(p);
+            log("creado!");
+            request.setAttribute("msg", "Producto creado con exito");
+            
+
+        } catch (Exception e) {
+            request.setAttribute("msg", "Hubo un error intenta nuevamente");
+        }
         
-        p.setFotoProducto(IOUtils.toByteArray(stream));
-        adminBean.insert(p);
-        log("creado!");
+        request.getRequestDispatcher("crudProducto.jsp").forward(request, response);
 
     }
 
