@@ -19,5 +19,5 @@ public interface AdminBeanLocal {
     List<Categoria> categoriaList();
     List<Producto> productoList();
     String insert(Object o);
-    
+    Categoria findCategoria(int id);
 }

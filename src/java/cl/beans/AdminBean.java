@@ -42,5 +42,12 @@ public class AdminBean implements AdminBeanLocal {
         return "creado con exito";
     }
 
+    @Override
+    public Categoria findCategoria(int id) {
+        return em.find(Categoria.class, id);
+    }
+    
+    
+
     
 }
