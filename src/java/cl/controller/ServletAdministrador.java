@@ -5,13 +5,16 @@
  */
 package cl.controller;
 
+import cl.model.Producto;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -31,19 +34,30 @@ public class ServletAdministrador extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletAdministrador</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletAdministrador at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String bt = request.getParameter("bt");
+        
+        switch (bt) {
+            case "nuevoProducto":
+                nuevoProducto(request, response);
+                break;
         }
+        
+    }
+    
+    protected void nuevoProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        InputStream stream;
+        Part foto = request.getPart("foto");
+        log("nombre archivo:"+foto.getName());
+        log("tamaño:"+foto.getSize());
+        log("tipo de archivo:"+foto.getContentType());
+        stream = foto.getInputStream();
+        
+        Producto p = new Producto();
+       // p.setFotoProducto();
+        
+                
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
